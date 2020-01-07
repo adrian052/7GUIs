@@ -13,52 +13,52 @@ import Debug exposing (toString,log)
 
 
 --Functions
-celToFar : Float -> Float
-celToFar val = (val * (9/5)) +32
+celsiusToFahrenheith : Float -> Float
+celsiusToFahrenheith val = (val * (9/5)) +32
 
-farToCel : Float -> Float
-farToCel val = (val-32)*(5/9)
+fahrenheithToCelsius : Float -> Float
+fahrenheithToCelsius val = (val-32)*(5/9)
 
 --Types
-type Msg = Change1 String
-    | Change2 String 
+type Msg = CelsiusToFahrenheith String
+    | FahrenheithToCelsius String 
 --Model 
 init =  
-    { text1 = "" 
-    , text2 = ""
+    { celsius = "" 
+    , fahrenheith = ""
     }
 --View 
 view model =layout [] <|
                 row []
                     [ el [] <| Input.text []
                     { label = Input.labelBelow [] <| text "                                  "
-                    , onChange = Change1
+                    , onChange = CelsiusToFahrenheith
                     , placeholder = Nothing
-                    , text = model.text1
+                    , text = model.celsius
                     }
                     ,
                     textSmall [] <| text " Celsius = "
                     ,
                     el [] <| Input.text []
                     { label = Input.labelBelow [] <| text "                                   "
-                    , onChange = Change2
+                    , onChange = FahrenheithToCelsius
                     , placeholder = Nothing
-                    , text = model.text2
+                    , text = model.fahrenheith
                     },
                     textSmall [] <| text " Fahrenheit"
                     ]
 --Update 
 update msg model =
     case msg of
-        Change1 newContent ->
+        CelsiusToFahrenheith newContent ->
             if  all isDigit newContent  then 
-                { model | text1 = newContent, text2 = toString (celToFar(Maybe.withDefault 0 (String.toFloat newContent)))}
+                { model | celsius = newContent, fahrenheith = toString (celsiusToFahrenheith(Maybe.withDefault 0 (String.toFloat newContent)))}
             else
                 model
                 
-        Change2 newContent -> 
+        FahrenheithToCelsius newContent -> 
             if all isDigit newContent then 
-                { model | text2 = newContent, text1 = toString (farToCel(Maybe.withDefault 0 (String.toFloat newContent)))}
+                { model | fahrenheith = newContent, celsius = toString (fahrenheithToCelsius(Maybe.withDefault 0 (String.toFloat newContent)))}
             else 
                 model
 --Main 
